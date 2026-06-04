@@ -1,4 +1,5 @@
-// Firebase SDK imports for app setup, authentication, Firestore profiles, and Storage uploads.
+// Firebase SDK imports for app setup, authentication, and Firestore profiles.
+// These imports come from Firebase's browser CDN so the site can stay as simple HTML/CSS/JS.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import {
     createUserWithEmailAndPassword,
@@ -18,14 +19,9 @@ import {
     serverTimestamp,
     setDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable
-} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
 
 // Firebase project settings copied from the Firebase web app config.
+// This connects the page to your Firebase project named "jpc-loop".
 const firebaseConfig = {
     apiKey: "AIzaSyBT6mGHTtYIrg3ZPRrr8r5hrjzSJwOeqY0",
     authDomain: "jpc-loop.firebaseapp.com",
@@ -37,12 +33,15 @@ const firebaseConfig = {
 };
 
 // School accounts must use this email ending.
+// This is checked before email sign-in, before account creation, and after Google sign-in.
 const SCHOOL_EMAIL_DOMAIN = "@jpc.school.nz";
-const MAX_PROFILE_IMAGE_BYTES = 2 * 1024 * 1024;
-const UPLOAD_TIMEOUT_MS = 20000;
-const PROFILE_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+// Local fallback image used for email/password users or Google users with no profile photo.
+// This file lives in the images folder and does not require Firebase Storage.
+const DEFAULT_PROFILE_IMAGE = "images/DefaultPFP.png";
 
 // Cached HTML elements so the rest of the script can update the page.
+// Storing them here means we only need to call document.getElementById once.
 const elements = {
     authTitle: document.getElementById("auth-title"),
     message: document.getElementById("auth-message"),
@@ -53,9 +52,6 @@ const elements = {
     passwordToggles: document.querySelectorAll(".password-toggle"),
     signoutButton: document.getElementById("signout-button"),
     avatarImage: document.getElementById("avatar-image"),
-    avatarFallback: document.getElementById("avatar-fallback"),
-    avatarEditButton: document.getElementById("avatar-edit-button"),
-    avatarInput: document.getElementById("avatar-input"),
     tabButtons: document.querySelectorAll(".tab-button"),
     userPanel: document.getElementById("user-panel"),
     userName: document.getElementById("user-name"),
@@ -63,6 +59,7 @@ const elements = {
 };
 
 // Friendly messages for common Firebase errors.
+// Firebase returns short error codes; this object turns them into messages a user can understand.
 const messages = {
     "auth/email-already-in-use": "That email already has an account.",
     "auth/invalid-email": "Enter a valid email address.",
@@ -75,17 +72,14 @@ const messages = {
     "auth/popup-blocked": "Your browser blocked the Google popup. Allow popups for this site and try again.",
     "auth/popup-closed-by-user": "Google sign-in was closed before it finished.",
     "auth/unauthorized-domain": "Add this website to Firebase Authentication authorized domains.",
-    "auth/weak-password": "Use a password with at least 6 characters.",
-    "storage/canceled": "The profile picture upload was cancelled.",
-    "storage/retry-limit-exceeded": "The image upload took too long. Try a smaller image.",
-    "storage/unauthorized": "Enable Firebase Storage and publish profile-picture rules.",
-    "storage/unknown": "Firebase Storage did not respond. Check that Storage is enabled for this project."
+    "auth/weak-password": "Use a password with at least 6 characters."
 };
 
 let auth;
 let db;
-let storage;
 let currentUser = null;
+
+// This flag prevents onAuthStateChanged from fighting the Google sign-in handler while Google is still being checked.
 let isValidatingGoogleSignin = false;
 
 // Checks that the Firebase config has real values before starting the page.
@@ -101,33 +95,6 @@ function schoolEmailMessage() {
     return `Use your ${SCHOOL_EMAIL_DOMAIN} school email address.`;
 }
 
-// Stops long Firebase requests from leaving the UI stuck forever.
-function withTimeout(promise, message) {
-    return Promise.race([
-        promise,
-        new Promise((resolve, reject) => {
-            setTimeout(() => reject(new Error(message)), UPLOAD_TIMEOUT_MS);
-        })
-    ]);
-}
-
-// Uploads a file with progress updates instead of waiting silently.
-function uploadProfileImage(avatarRef, file) {
-    return new Promise((resolve, reject) => {
-        const uploadTask = uploadBytesResumable(avatarRef, file, { contentType: file.type });
-
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                setMessage(`Uploading profile picture... ${percent}%`, "info");
-            },
-            reject,
-            () => resolve(uploadTask.snapshot)
-        );
-    });
-}
-
 // Writes feedback text under the forms.
 function setMessage(text, type = "info") {
     elements.message.textContent = text;
@@ -140,6 +107,7 @@ function formatError(error) {
 }
 
 // Temporarily disables a button while Firebase is working.
+// Example: the sign-in button changes to "Signing in..." while the request is running.
 function setBusy(button, isBusy, busyText) {
     if (!button) {
         return;
@@ -164,6 +132,7 @@ function setAllControlsDisabled(isDisabled) {
 }
 
 // Shows either the sign-in form or the create-account form.
+// The two forms both exist in the HTML; this function hides one and shows the other.
 function showPanel(panelName) {
     const isSignin = panelName === "signin";
 
@@ -184,6 +153,7 @@ function getProviderId(user) {
 }
 
 // Chooses the nicest available display name for the signed-in card.
+// Google accounts usually have displayName. Email accounts may only have an email address.
 function getFriendlyName(user) {
     if (user.displayName) {
         return user.displayName;
@@ -196,20 +166,47 @@ function getFriendlyName(user) {
     return "JPC Loop user";
 }
 
-function updateAvatar(photoURL) {
-    if (photoURL) {
-        elements.avatarImage.src = photoURL;
-        elements.avatarImage.hidden = false;
-        elements.avatarFallback.hidden = true;
-        return;
+// Finds a Google profile photo if Firebase has one.
+// Some accounts store it on user.photoURL; others store it inside providerData.
+function getGoogleProviderPhoto(user) {
+    // providerData is an array because one account can have multiple sign-in methods.
+    // We search for the Google entry and use its photo if Firebase has saved one.
+    const googleProvider = user?.providerData?.find((provider) => provider.providerId === "google.com");
+    return googleProvider?.photoURL || "";
+}
+
+// Adds a size parameter to Google profile images so they load crisply in the avatar circle.
+function normalizeGooglePhotoURL(photoURL) {
+    // Non-Google image URLs should be left untouched.
+    if (!photoURL || !photoURL.includes("googleusercontent.com")) {
+        return photoURL || "";
     }
 
-    elements.avatarImage.removeAttribute("src");
-    elements.avatarImage.hidden = true;
-    elements.avatarFallback.hidden = false;
+    // Google images often end with a size such as =s96-c. We request a larger square version.
+    return photoURL.replace(/=s\d+(-c)?$/, "=s192-c");
+}
+
+// Chooses which profile image should appear in the signed-in card.
+// Order: Firebase profile photo, Google provider photo, then the local default image.
+function getProfileImage(user) {
+    return normalizeGooglePhotoURL(user?.photoURL || getGoogleProviderPhoto(user)) || DEFAULT_PROFILE_IMAGE;
+}
+
+// Updates the avatar image and makes sure broken external images fall back to the local default.
+function updateAvatar(user) {
+    const profileImage = getProfileImage(user);
+
+    elements.avatarImage.onerror = () => {
+        elements.avatarImage.onerror = null;
+        elements.avatarImage.src = DEFAULT_PROFILE_IMAGE;
+    };
+
+    elements.avatarImage.src = profileImage;
+    elements.avatarImage.hidden = false;
 }
 
 // Connects each eye button to its matching password input.
+// The button uses aria-controls in HTML to say which input it controls.
 function setupPasswordToggles() {
     elements.passwordToggles.forEach((button) => {
         const input = document.getElementById(button.getAttribute("aria-controls"));
@@ -223,16 +220,8 @@ function setupPasswordToggles() {
     });
 }
 
-// Opens the hidden file input when the user clicks Edit photo.
-function setupAvatarEditor() {
-    elements.avatarEditButton.addEventListener("click", () => {
-        elements.avatarInput.click();
-    });
-
-    elements.avatarInput.addEventListener("change", handleAvatarChange);
-}
-
 // Blocks non-school Google accounts and removes brand-new rejected accounts.
+// Google creates/signs-in the user before our code can inspect the email, so we clean it up after.
 async function removeUnauthorizedGoogleUser(user, isNewUser) {
     try {
         if (isNewUser) {
@@ -248,12 +237,13 @@ async function removeUnauthorizedGoogleUser(user, isNewUser) {
 }
 
 // Saves a profile document in Firestore so the app can store user details.
+// merge: true keeps old fields if more profile settings are added later.
 async function saveUserProfile(user, providerId, isNewUser = false, extraProfile = {}) {
     const profile = {
         uid: user.uid,
         displayName: user.displayName || "",
         email: user.email || "",
-        photoURL: extraProfile.photoURL || user.photoURL || "",
+        photoURL: extraProfile.photoURL || getProfileImage(user),
         providerId,
         lastLoginAt: serverTimestamp(),
         updatedAt: serverTimestamp()
@@ -273,6 +263,7 @@ async function saveUserProfile(user, providerId, isNewUser = false, extraProfile
 }
 
 // Updates the signed-in profile panel whenever Firebase auth state changes.
+// Firebase calls this after sign-in, sign-out, and page refreshes with an existing session.
 function updateUserPanel(user) {
     currentUser = user;
 
@@ -281,7 +272,7 @@ function updateUserPanel(user) {
         elements.authShell.classList.add("auth-only");
         elements.userName.textContent = "Account";
         elements.userEmail.textContent = "";
-        updateAvatar("");
+        updateAvatar(null);
         return;
     }
 
@@ -289,10 +280,11 @@ function updateUserPanel(user) {
     elements.authShell.classList.remove("auth-only");
     elements.userName.textContent = getFriendlyName(user);
     elements.userEmail.textContent = user.email || "";
-    updateAvatar(user.photoURL || "");
+    updateAvatar(user);
 }
 
 // Handles email/password sign-in.
+// It first checks the school email rule, then asks Firebase to sign the user in.
 async function handleSignin(event) {
     event.preventDefault();
 
@@ -323,6 +315,7 @@ async function handleSignin(event) {
 }
 
 // Handles new email/password account creation.
+// It stores the user's name on their Firebase Auth profile and writes a Firestore profile document.
 async function handleRegister(event) {
     event.preventDefault();
 
@@ -363,6 +356,7 @@ async function handleRegister(event) {
 }
 
 // Handles Google sign-in and rejects non-JPC Google accounts.
+// Accepted Google users keep their Google profile picture automatically.
 async function handleGoogleSignin() {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
@@ -378,6 +372,12 @@ async function handleGoogleSignin() {
             updateUserPanel(null);
             setMessage(schoolEmailMessage(), "error");
             return;
+        }
+
+        // If the Auth profile has an old/default photo, replace it with the Google provider photo.
+        const googlePhotoURL = normalizeGooglePhotoURL(getGoogleProviderPhoto(userCredential.user));
+        if (googlePhotoURL && userCredential.user.photoURL !== googlePhotoURL) {
+            await updateProfile(userCredential.user, { photoURL: googlePhotoURL });
         }
 
         updateUserPanel(userCredential.user);
@@ -399,63 +399,8 @@ async function handleGoogleSignin() {
     }
 }
 
-// Uploads a chosen profile image to Storage and saves its URL on the user profile.
-async function handleAvatarChange(event) {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-
-    if (!file) {
-        return;
-    }
-
-    if (!currentUser) {
-        setMessage("Sign in before changing your profile picture.", "error");
-        return;
-    }
-
-    if (!PROFILE_IMAGE_TYPES.includes(file.type)) {
-        setMessage("Choose a JPG, PNG, or WebP image.", "error");
-        return;
-    }
-
-    if (file.size > MAX_PROFILE_IMAGE_BYTES) {
-        setMessage("Choose an image smaller than 2 MB.", "error");
-        return;
-    }
-
-    try {
-        setBusy(elements.avatarEditButton, true, "Uploading...");
-        const extension = file.type.replace("image/", "").replace("jpeg", "jpg");
-        const avatarRef = ref(storage, `profile-pictures/${currentUser.uid}/avatar.${extension}`);
-
-        setMessage("Uploading profile picture...", "info");
-        await withTimeout(
-            uploadProfileImage(avatarRef, file),
-            "Upload timed out. Check Firebase Storage rules and try a smaller image."
-        );
-
-        setMessage("Getting uploaded image link...", "info");
-        const photoURL = await withTimeout(
-            getDownloadURL(avatarRef),
-            "Could not get the uploaded image link. Check Firebase Storage rules."
-        );
-
-        setMessage("Saving profile picture...", "info");
-        await withTimeout(
-            updateProfile(currentUser, { photoURL }),
-            "Could not save the image to your account. Try signing in again."
-        );
-        await saveUserProfile(currentUser, getProviderId(currentUser), false, { photoURL });
-        updateAvatar(photoURL);
-        setMessage("Profile picture updated.", "success");
-    } catch (error) {
-        setMessage(formatError(error), "error");
-    } finally {
-        setBusy(elements.avatarEditButton, false);
-    }
-}
-
 // Starts Firebase and connects all page event listeners.
+// This is the main setup function that runs once when auth.js loads.
 function startAuth() {
     if (!firebaseConfigReady()) {
         setMessage("Add your Firebase web app config in auth.js.", "error");
@@ -464,17 +409,20 @@ function startAuth() {
     }
 
     const app = initializeApp(firebaseConfig);
+
+    // Auth handles sign-in/sign-out. Firestore stores extra profile data.
     auth = getAuth(app);
     db = getFirestore(app);
-    storage = getStorage(app, `gs://${firebaseConfig.storageBucket}`);
 
+    // Wire up the tab buttons.
     elements.tabButtons.forEach((button) => {
         button.addEventListener("click", () => showPanel(button.dataset.panel));
     });
 
+    // Wire up password visibility buttons.
     setupPasswordToggles();
-    setupAvatarEditor();
 
+    // Wire up form submissions and auth buttons.
     elements.signinForm.addEventListener("submit", handleSignin);
     elements.registerForm.addEventListener("submit", handleRegister);
     elements.googleButton.addEventListener("click", handleGoogleSignin);
@@ -483,6 +431,7 @@ function startAuth() {
         setMessage("Signed out.", "info");
     });
 
+    // Keep the UI synced with Firebase's current signed-in user.
     onAuthStateChanged(auth, async (user) => {
         if (isValidatingGoogleSignin) {
             return;

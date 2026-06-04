@@ -100,12 +100,10 @@
             <!-- Signed-in user panel. It appears after Firebase confirms an active account. -->
             <aside class="auth-status" id="user-panel" hidden>
                 <div class="profile-tools">
+                    <!-- JavaScript fills this image with the Google profile photo or the local default image. -->
                     <div class="profile-avatar" aria-label="Profile picture">
-                        <img id="avatar-image" alt="Profile picture" hidden>
-                        <span class="avatar-fallback" id="avatar-fallback" aria-hidden="true"></span>
+                        <img id="avatar-image" alt="" referrerpolicy="no-referrer" hidden>
                     </div>
-                    <button class="avatar-edit-button" id="avatar-edit-button" type="button">Edit photo</button>
-                    <input id="avatar-input" type="file" accept="image/jpeg, image/png, image/webp" hidden>
                 </div>
                 <p class="eyebrow">Signed in as</p>
                 <h2 id="user-name">Account</h2>
