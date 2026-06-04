@@ -1,0 +1,395 @@
+/* Sign-in page background and centered authentication layout. */
+.auth-page {
+    background: linear-gradient(rgba(12, 18, 31, 0.66), rgba(12, 18, 31, 0.66)), url("images/school.jpg") center/cover fixed;
+}
+
+.auth-main {
+    min-height: calc(100vh - 55px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 24px;
+}
+
+.auth-shell {
+    width: min(940px, 100%);
+    display: grid;
+    grid-template-columns: minmax(300px, 430px) minmax(240px, 1fr);
+    gap: 18px;
+    align-items: stretch;
+}
+
+.auth-shell.auth-only {
+    width: min(430px, 100%);
+    grid-template-columns: 1fr;
+}
+
+/* White panels for the forms and signed-in profile area. */
+.auth-panel,
+.auth-status {
+    background-color: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    border-radius: 8px;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+}
+
+.auth-panel {
+    padding: 28px;
+}
+
+/* Heading text above the sign-in/register controls. */
+.auth-heading {
+    margin-bottom: 22px;
+}
+
+.auth-heading h1 {
+    margin-bottom: 8px;
+    color: #1f1f1f;
+}
+
+.auth-heading p {
+    color: #5a5a5a;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* Two-button tab switcher for sign in vs create account. */
+.auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: #eeeeee;
+    border-radius: 8px;
+}
+
+.tab-button {
+    min-height: 40px;
+    border: 0;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #555;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.tab-button.active {
+    background-color: white;
+    color: #d60000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Form layout and input styling. */
+.auth-form {
+    display: grid;
+    gap: 10px;
+}
+
+.auth-form.is-hidden {
+    display: none;
+}
+
+.auth-form label {
+    color: #343434;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.auth-form input {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    background-color: white;
+    color: #222;
+    font-size: 15px;
+}
+
+.auth-form input:focus {
+    border-color: #d60000;
+    outline: 3px solid rgba(214, 0, 0, 0.16);
+}
+
+/* Password wrapper with a CSS-drawn eye icon for show/hide password. */
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 6px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    background-color: #eeeeee;
+}
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 12px;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    border: 2px solid #555;
+    border-radius: 100% 12px;
+}
+
+.eye-icon::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #555;
+}
+
+.eye-icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -3px;
+    width: 26px;
+    height: 2px;
+    transform: translateY(-50%) rotate(42deg);
+    border-radius: 2px;
+    background-color: #555;
+    opacity: 0;
+}
+
+.password-toggle.is-visible .eye-icon::after {
+    opacity: 1;
+}
+
+/* Main buttons for sign-in actions. */
+.primary-button,
+.secondary-button,
+.google-button {
+    min-height: 44px;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.primary-button {
+    margin-top: 8px;
+    background-color: #d60000;
+    color: white;
+}
+
+.secondary-button {
+    width: 100%;
+    background-color: #303030;
+    color: white;
+}
+
+.auth-status .secondary-button {
+    margin-top: auto;
+}
+
+.google-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid #d2d2d2;
+    background-color: white;
+    color: #252525;
+}
+
+.google-button span {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #f2f2f2;
+    color: #4285f4;
+    font-weight: 900;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.google-button:hover,
+.tab-button:hover,
+.avatar-edit-button:hover {
+    filter: brightness(0.96);
+}
+
+/* Divider between password sign-in and Google sign-in. */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    color: #777;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background-color: #dcdcdc;
+}
+
+/* Message area used for success, error, and warning feedback. */
+.auth-message {
+    min-height: 22px;
+    margin-top: 16px;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.auth-message.success {
+    color: #12743a;
+}
+
+.auth-message.error {
+    color: #b00020;
+}
+
+.auth-message.warning {
+    color: #986000;
+}
+
+/* Signed-in user card and profile picture controls. */
+.auth-status {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 28px;
+    min-height: 250px;
+}
+
+.auth-status[hidden] {
+    display: none;
+}
+
+.profile-tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.profile-avatar {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    flex: 0 0 auto;
+    overflow: hidden;
+    border: 2px solid #d8d8d8;
+    border-radius: 50%;
+    background-color: #f1f3f5;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.avatar-fallback::before {
+    content: "";
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background-color: #9aa0a6;
+}
+
+.avatar-fallback::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    width: 58px;
+    height: 34px;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 12px 12px;
+    background-color: #9aa0a6;
+}
+
+.avatar-edit-button {
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid #d2d2d2;
+    border-radius: 6px;
+    background-color: white;
+    color: #252525;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.eyebrow {
+    margin-bottom: 8px;
+    color: #d60000;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.auth-status h2 {
+    margin-bottom: 8px;
+    color: #1f1f1f;
+}
+
+.auth-status p:not(.eyebrow) {
+    margin-bottom: 22px;
+    color: #5a5a5a;
+    overflow-wrap: anywhere;
+}
+
+/* Authentication page responsive tweaks. */
+@media (max-width: 860px) {
+    .auth-main {
+        min-height: calc(100vh - 115px);
+        padding: 24px 16px;
+    }
+
+    .auth-shell {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .auth-panel,
+    .auth-status {
+        padding: 22px;
+    }
+
+    .auth-tabs {
+        grid-template-columns: 1fr;
+    }
+}

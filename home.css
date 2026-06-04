@@ -1,0 +1,77 @@
+/* Home page hero image with dark overlay and centered buttons. */
+.hero {
+    position: relative;
+    width: 900px;
+    margin: 40px auto;
+}
+
+.hero img {
+    width: 100%;
+    display: block;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 8, 20, 0.5);
+
+    text-align: center;
+    color: white;
+}
+
+.hero-overlay h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hero-buttons {
+    position: absolute;
+    top: calc(50% + 50px);
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 20px;
+}
+
+.hero-buttons a:hover {
+    transform: scale(1.05);
+}
+
+.hero-buttons a {
+    text-decoration: none;
+    color: white;
+    padding: 12px 12px;
+    display: inline-block;
+}
+
+.open-feed {
+    background-color: red;
+}
+
+.hero-buttons a:last-child {
+    background-color: #666;
+}
+
+/* Homepage responsive tweaks. */
+@media (max-width: 860px) {
+    .hero {
+        width: calc(100% - 32px);
+        margin: 24px auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .hero-buttons {
+        width: calc(100% - 32px);
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

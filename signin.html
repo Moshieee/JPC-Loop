@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Page metadata, responsive viewport settings, shared stylesheet, and auth-only stylesheet. -->
+    <title>Sign in | JPC Loop</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body class="auth-page">
+
+    <!-- Shared navigation for moving between the homepage and sign-in page. -->
+    <header>
+        <nav class="navbar">
+            <h2 class="logo"><a href="index.html">JPC Loop</a></h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="">Feed</a></li>
+                <li><a href="">News</a></li>
+                <li><a href="">Houses</a></li>
+                <li><a href="">Gallery</a></li>
+                <li><a href="">Guidelines</a></li>
+                <li><a class="signin" href="signin.html">Sign in</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Authentication screen with forms on the left and profile status on the right. -->
+    <main class="auth-main">
+        <section class="auth-shell auth-only" id="auth-shell">
+            <div class="auth-panel">
+                <!-- Page title changes when the user switches between sign in and create account. -->
+                <div class="auth-heading">
+                    <h1 id="auth-title">Sign in</h1>
+                    <p>Access your JPC Loop account.</p>
+                </div>
+
+                <!-- Tabs choose which form is visible. JavaScript handles the switching. -->
+                <div class="auth-tabs" role="tablist" aria-label="Account options">
+                    <button class="tab-button active" type="button" role="tab" aria-selected="true" data-panel="signin">Sign in</button>
+                    <button class="tab-button" type="button" role="tab" aria-selected="false" data-panel="register">Create account</button>
+                </div>
+
+                <!-- Existing users sign in with their school email and password. -->
+                <form class="auth-form" id="signin-form">
+                    <label for="signin-email">Email</label>
+                    <input id="signin-email" name="email" type="email" autocomplete="email" required>
+
+                    <label for="signin-password">Password</label>
+                    <div class="password-field">
+                        <input id="signin-password" name="password" type="password" autocomplete="current-password" required>
+                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="signin-password">
+                            <span class="eye-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
+
+                    <button class="primary-button" type="submit">Sign in</button>
+                </form>
+
+                <!-- New users create an account; auth.js checks that the email is a JPC address. -->
+                <form class="auth-form is-hidden" id="register-form">
+                    <label for="register-name">Name</label>
+                    <input id="register-name" name="name" type="text" autocomplete="name" required>
+
+                    <label for="register-email">Email</label>
+                    <input id="register-email" name="email" type="email" autocomplete="email" required>
+
+                    <label for="register-password">Password</label>
+                    <div class="password-field">
+                        <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="6" required>
+                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="register-password">
+                            <span class="eye-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
+
+                    <label for="register-confirm">Confirm password</label>
+                    <div class="password-field">
+                        <input id="register-confirm" name="confirm-password" type="password" autocomplete="new-password" minlength="6" required>
+                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="register-confirm">
+                            <span class="eye-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
+
+                    <button class="primary-button" type="submit">Create account</button>
+                </form>
+
+                <!-- Google sign-in also gets checked so only JPC school accounts are accepted. -->
+                <div class="auth-divider"><span>or</span></div>
+
+                <button class="google-button" id="google-button" type="button">
+                    <span aria-hidden="true">G</span>
+                    Continue with Google
+                </button>
+
+                <p class="auth-message" id="auth-message" aria-live="polite"></p>
+            </div>
+
+            <!-- Signed-in user panel. It appears after Firebase confirms an active account. -->
+            <aside class="auth-status" id="user-panel" hidden>
+                <div class="profile-tools">
+                    <div class="profile-avatar" aria-label="Profile picture">
+                        <img id="avatar-image" alt="Profile picture" hidden>
+                        <span class="avatar-fallback" id="avatar-fallback" aria-hidden="true"></span>
+                    </div>
+                    <button class="avatar-edit-button" id="avatar-edit-button" type="button">Edit photo</button>
+                    <input id="avatar-input" type="file" accept="image/jpeg, image/png, image/webp" hidden>
+                </div>
+                <p class="eyebrow">Signed in as</p>
+                <h2 id="user-name">Account</h2>
+                <p id="user-email"></p>
+                <button class="secondary-button" id="signout-button" type="button">Sign out</button>
+            </aside>
+        </section>
+    </main>
+
+    <script type="module" src="auth.js"></script>
+</body>
+</html>

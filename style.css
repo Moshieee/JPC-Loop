@@ -1,0 +1,93 @@
+/* Font import for the whole site. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/* Basic reset: removes browser default spacing and makes sizing predictable. */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter";
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 38px;
+}
+
+h2 {
+    font-size: 22px;
+}
+
+a {
+    font-size: 14px;
+}
+
+body {
+    min-height: 100vh;
+    color: #262626;
+    background-color: #f4f4f4;
+}
+
+/* Shared navigation bar used on the home page and sign-in page. */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #d3d3d3;
+    height: 55px;
+    padding: 0 25px;
+}
+
+.logo a {
+    color: #262626;
+    font-size: inherit;
+    text-decoration: none;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #404040;
+    font-weight: 700;
+}
+
+.navbar a.signin {
+    background-color: red;
+    color: white;
+    padding: 8px 14px;
+}
+
+button:disabled,
+input:disabled {
+    cursor: not-allowed;
+    opacity: 0.68;
+}
+
+/* Shared responsive navigation rules. */
+@media (max-width: 860px) {
+    .navbar {
+        height: auto;
+        min-height: 55px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 18px;
+    }
+
+    .navbar ul {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 520px) {
+    h1 {
+        font-size: 32px;
+    }
+}
