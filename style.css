@@ -1,7 +1,7 @@
-/* Font import for the whole site. */
+/* Imports the Inter font from Google Fonts for the whole site. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-/* Basic reset: removes browser default spacing and makes sizing predictable. */
+/* Resets spacing and makes width/height calculations easier to understand. */
 * {
     margin: 0;
     padding: 0;
@@ -9,25 +9,29 @@
     box-sizing: border-box;
 }
 
+/* Sets the default size for main page headings. */
 h1 {
     font-size: 38px;
 }
 
+/* Sets the default size for smaller headings. */
 h2 {
     font-size: 22px;
 }
 
+/* Sets the default size for links. */
 a {
     font-size: 14px;
 }
 
+/* Gives every page a light background and full-page minimum height. */
 body {
     min-height: 100vh;
     color: #262626;
     background-color: #f4f4f4;
 }
 
-/* Shared navigation bar used on the home page and sign-in page. */
+/* Creates the shared top navigation bar used on every page. */
 .navbar {
     display: flex;
     align-items: center;
@@ -37,12 +41,14 @@ body {
     padding: 0 25px;
 }
 
+/* Styles the JPC Loop logo link so it looks like heading text. */
 .logo a {
     color: #262626;
     font-size: inherit;
     text-decoration: none;
 }
 
+/* Lays out the navigation links horizontally with even spacing. */
 .navbar ul {
     list-style: none;
     display: flex;
@@ -50,26 +56,30 @@ body {
     gap: 20px;
 }
 
+/* Styles the normal navbar links. */
 .navbar a {
     text-decoration: none;
     color: #404040;
     font-weight: 700;
 }
 
+/* Makes the Sign in navbar link stand out as the main account button. */
 .navbar a.signin {
     background-color: red;
     color: white;
     padding: 8px 14px;
 }
 
+/* Shows disabled buttons and inputs as inactive. */
 button:disabled,
 input:disabled {
     cursor: not-allowed;
     opacity: 0.68;
 }
 
-/* Shared responsive navigation rules. */
+/* Starts tablet responsive rules for shared navigation. */
 @media (max-width: 860px) {
+    /* Stacks the navbar on smaller screens so links do not overflow. */
     .navbar {
         height: auto;
         min-height: 55px;
@@ -79,6 +89,7 @@ input:disabled {
         padding: 14px 18px;
     }
 
+    /* Allows navbar links to wrap onto multiple lines. */
     .navbar ul {
         width: 100%;
         flex-wrap: wrap;
@@ -86,7 +97,9 @@ input:disabled {
     }
 }
 
+/* Starts phone responsive rules for shared text. */
 @media (max-width: 520px) {
+    /* Makes large headings smaller on phone screens. */
     h1 {
         font-size: 32px;
     }

@@ -1,15 +1,17 @@
-/* Home page hero image with dark overlay and centered buttons. */
+/* Creates the main hero container and centers it on the homepage. */
 .hero {
     position: relative;
     width: 900px;
     margin: 40px auto;
 }
 
+/* Makes the school image fill the hero container without extra spacing underneath. */
 .hero img {
     width: 100%;
     display: block;
 }
 
+/* Places a dark transparent layer over the hero image so white text is readable. */
 .hero-overlay {
     position: absolute;
     top: 0;
@@ -24,6 +26,7 @@
     color: white;
 }
 
+/* Centers the JPC Loop title in the middle of the hero image. */
 .hero-overlay h1 {
     position: absolute;
     top: 50%;
@@ -31,6 +34,7 @@
     transform: translate(-50%, -50%);
 }
 
+/* Places the two hero buttons underneath the main title. */
 .hero-buttons {
     position: absolute;
     top: calc(50% + 50px);
@@ -41,10 +45,12 @@
     gap: 20px;
 }
 
+/* Slightly enlarges hero buttons when the user hovers over them. */
 .hero-buttons a:hover {
     transform: scale(1.05);
 }
 
+/* Styles both hero button links with white text and clickable padding. */
 .hero-buttons a {
     text-decoration: none;
     color: white;
@@ -52,23 +58,28 @@
     display: inline-block;
 }
 
+/* Gives the Open Feed button the red JPC action colour. */
 .open-feed {
     background-color: red;
 }
 
+/* Gives the second hero button a grey background. */
 .hero-buttons a:last-child {
     background-color: #666;
 }
 
-/* Tweaks to increase homepage responsiveness. */
+/* Starts tablet responsive rules for the homepage. */
 @media (max-width: 860px) {
+    /* Makes the hero fit smaller screens with side spacing. */
     .hero {
         width: calc(100% - 32px);
         margin: 24px auto;
     }
 }
 
+/* Starts phone responsive rules for the homepage. */
 @media (max-width: 520px) {
+    /* Lets the hero buttons wrap if the phone screen is too narrow. */
     .hero-buttons {
         width: calc(100% - 32px);
         justify-content: center;

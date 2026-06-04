@@ -1,0 +1,74 @@
+/* Sets the Houses page width, centers the page, and adds top/bottom spacing. */
+.houses-main {
+    width: min(1516px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 80px 0 48px;
+}
+
+/* Creates the grey title band at the top of the Houses page. */
+.houses-heading {
+    display: flex;
+    align-items: center;
+    min-height: 106px;
+    margin-bottom: 68px;
+    padding: 0 84px;
+    background-color: #d1d1d1;
+}
+
+/* Styles the JPC Houses heading inside the grey title band. */
+.houses-heading h1 {
+    color: #070707;
+    font-size: 34px;
+    font-weight: 900;
+}
+
+/* Creates the two-column grid that holds the house cards. */
+.houses-grid {
+    width: min(1222px, 100%);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 58px 158px;
+    margin: 0 auto;
+}
+
+/* Creates each house card and lets the banner decide the height. */
+.house-card {
+    background-color: #d1d1d1;
+}
+
+/* Shows the full banner image without cropping it. */
+.house-card img {
+    width: 100%;
+    display: block;
+}
+
+/* Starts medium-screen responsive rules for the Houses page. */
+@media (max-width: 1120px) {
+    /* Reduces the gap between house cards on medium screens. */
+    .houses-grid {
+        gap: 36px;
+    }
+
+}
+
+/* Starts phone responsive rules for the Houses page. */
+@media (max-width: 760px) {
+    /* Reduces page spacing on phone screens. */
+    .houses-main {
+        width: calc(100% - 32px);
+        padding-top: 28px;
+    }
+
+    /* Makes the title band shorter and less wide on phones. */
+    .houses-heading {
+        min-height: 84px;
+        margin-bottom: 32px;
+        padding: 0 24px;
+    }
+
+    /* Changes house cards from two columns to one column on phones. */
+    .houses-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
