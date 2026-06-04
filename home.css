@@ -60,7 +60,7 @@
     background-color: #666;
 }
 
-/* Homepage responsive tweaks. */
+/* Tweaks to increase homepage responsiveness. */
 @media (max-width: 860px) {
     .hero {
         width: calc(100% - 32px);
