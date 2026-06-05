@@ -47,12 +47,14 @@ const elements = {
     message: document.getElementById("auth-message"),
     signinForm: document.getElementById("signin-form"),
     registerForm: document.getElementById("register-form"),
+    signinPanel: document.querySelector(".login"),
+    registerPanel: document.querySelector(".signup-container"),
     authShell: document.getElementById("auth-shell"),
-    googleButton: document.getElementById("google-button"),
+    googleButtons: document.querySelectorAll(".google-button"),
     passwordToggles: document.querySelectorAll(".password-toggle"),
     signoutButton: document.getElementById("signout-button"),
     avatarImage: document.getElementById("avatar-image"),
-    tabButtons: document.querySelectorAll(".tab-button"),
+    tabButtons: document.querySelectorAll("[data-panel]"),
     userPanel: document.getElementById("user-panel"),
     userName: document.getElementById("user-name"),
     userEmail: document.getElementById("user-email")
@@ -137,6 +139,8 @@ function showPanel(panelName) {
     const isSignin = panelName === "signin";
 
     elements.authTitle.textContent = isSignin ? "Sign in" : "Create account";
+    elements.signinPanel.classList.toggle("is-hidden", !isSignin);
+    elements.registerPanel.classList.toggle("is-hidden", isSignin);
     elements.signinForm.classList.toggle("is-hidden", !isSignin);
     elements.registerForm.classList.toggle("is-hidden", isSignin);
     setMessage("");
@@ -144,7 +148,6 @@ function showPanel(panelName) {
     elements.tabButtons.forEach((button) => {
         const isActive = button.dataset.panel === panelName;
         button.classList.toggle("active", isActive);
-        button.setAttribute("aria-selected", String(isActive));
     });
 }
 
@@ -357,13 +360,14 @@ async function handleRegister(event) {
 
 // Handles Google sign-in and rejects non-JPC Google accounts.
 // Accepted Google users keep their Google profile picture automatically.
-async function handleGoogleSignin() {
+async function handleGoogleSignin(event) {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
+    const button = event.currentTarget;
 
     try {
         isValidatingGoogleSignin = true;
-        setBusy(elements.googleButton, true, "Opening Google...");
+        setBusy(button, true, "Opening Google...");
         const userCredential = await signInWithPopup(auth, provider);
         const userInfo = getAdditionalUserInfo(userCredential);
 
@@ -395,7 +399,7 @@ async function handleGoogleSignin() {
         setMessage(formatError(error), "error");
     } finally {
         isValidatingGoogleSignin = false;
-        setBusy(elements.googleButton, false);
+        setBusy(button, false);
     }
 }
 
@@ -425,7 +429,9 @@ function startAuth() {
     // Wire up form submissions and auth buttons.
     elements.signinForm.addEventListener("submit", handleSignin);
     elements.registerForm.addEventListener("submit", handleRegister);
-    elements.googleButton.addEventListener("click", handleGoogleSignin);
+    elements.googleButtons.forEach((button) => {
+        button.addEventListener("click", handleGoogleSignin);
+    });
     elements.signoutButton.addEventListener("click", async () => {
         await signOut(auth);
         setMessage("Signed out.", "info");

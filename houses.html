@@ -11,14 +11,14 @@
 
 <body>
 
-    <!-- Shared navigation for moving around JPC Loop. -->
+    <!-- Header navigation shown at the top of the houses page. -->
     <header>
         <nav class="navbar">
-            <h2 class="logo"><a href="index.html">JPC Loop</a></h2>
+            <h2 class="logo"><a href="index.html"><img src="images/JPC-Loop-Logo.png" alt="JPC Loop"></a></h2>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="">Feed</a></li>
-                <li><a href="">News</a></li>
+                <li><a href="feed.html">Feed</a></li>
+                <li><a href="news.html">News</a></li>
                 <li><a href="houses.html">Houses</a></li>
                 <li><a href="">Gallery</a></li>
                 <li><a href="">Guidelines</a></li>
@@ -27,15 +27,17 @@
         </nav>
     </header>
 
-    <!-- Main Houses page content. -->
+    <!-- Main houses page content. -->
     <main class="houses-main">
-        <!-- Grey heading band matching the reference layout. -->
+
+        <!-- Grey heading bar for the page title. -->
         <section class="houses-heading">
             <h1>JPC Houses</h1>
         </section>
 
-        <!-- House tiles use the banner files from images/houses; the banners already include their own text. -->
+        <!-- Grid of house banner images. -->
         <section class="houses-grid" aria-label="JPC house list">
+
             <div class="house-card">
                 <img src="images/houses/Rice.png" alt="Rice house banner">
             </div>
@@ -52,11 +54,14 @@
                 <img src="images/houses/McKenna.png" alt="McKenna house banner">
             </div>
 
-            <div class="house-card">
+            <div class="house-card middle-house">
                 <img src="images/houses/MacKillop.png" alt="MacKillop house banner">
             </div>
+
         </section>
+
     </main>
 
 </body>
+
 </html>

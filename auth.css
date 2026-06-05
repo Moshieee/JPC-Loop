@@ -5,7 +5,7 @@
 
 /* Centers the sign-in layout vertically and horizontally under the navbar. */
 .auth-main {
-    min-height: calc(100vh - 55px);
+    min-height: calc(100vh - 56px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,6 +39,12 @@
 /* Adds inner spacing inside the sign-in/register form card. */
 .auth-panel {
     padding: 28px;
+}
+
+/* Hides the login or signup container when JavaScript switches sections. */
+.login.is-hidden,
+.signup-container.is-hidden {
+    display: none;
 }
 
 /* Adds spacing under the auth title section. */
@@ -253,6 +259,23 @@
     font-weight: 900;
 }
 
+/* Styles the text below the forms that switches between Login and Sign up. */
+.link-signup {
+    margin-top: 18px;
+    color: #555;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Makes the Login/Sign up switch look like a text link instead of a normal button. */
+.auth-link-button {
+    border: 0;
+    background-color: transparent;
+    color: #d60000;
+    cursor: pointer;
+    font-weight: 800;
+}
+
 /* Slightly darkens buttons when the user hovers over them. */
 .primary-button:hover,
 .secondary-button:hover,
@@ -374,7 +397,7 @@
 @media (max-width: 860px) {
     /* Adjusts the auth page height and spacing under the stacked navbar. */
     .auth-main {
-        min-height: calc(100vh - 115px);
+        min-height: calc(100vh - 100px);
         padding: 24px 16px;
     }
 

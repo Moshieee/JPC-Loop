@@ -16,7 +16,7 @@ h1 {
 
 /* Sets the default size for smaller headings. */
 h2 {
-    font-size: 22px;
+    font-size: 20px;
 }
 
 /* Sets the default size for links. */
@@ -37,15 +37,27 @@ body {
     align-items: center;
     justify-content: space-between;
     background-color: #d3d3d3;
-    height: 55px;
-    padding: 0 25px;
+    height: 56px;
+    padding: 0 24px;
 }
 
-/* Styles the JPC Loop logo link so it looks like heading text. */
+/* Keeps the logo heading from adding extra spacing. */
+.logo {
+    line-height: 0;
+}
+
+/* Styles the JPC Loop logo link in the top-left navbar. */
 .logo a {
-    color: #262626;
-    font-size: inherit;
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
+}
+
+/* Sizes the JPC Loop logo image so it fits inside the short navbar. */
+.logo img {
+    width: auto;
+    height: 48px;
+    display: block;
 }
 
 /* Lays out the navigation links horizontally with even spacing. */
@@ -53,7 +65,7 @@ body {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
 }
 
 /* Styles the normal navbar links. */
@@ -67,7 +79,7 @@ body {
 .navbar a.signin {
     background-color: red;
     color: white;
-    padding: 8px 14px;
+    padding: 7px 13px;
 }
 
 /* Shows disabled buttons and inputs as inactive. */
@@ -82,7 +94,7 @@ input:disabled {
     /* Stacks the navbar on smaller screens so links do not overflow. */
     .navbar {
         height: auto;
-        min-height: 55px;
+        min-height: 56px;
         align-items: flex-start;
         flex-direction: column;
         gap: 12px;

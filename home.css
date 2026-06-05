@@ -58,13 +58,13 @@
     display: inline-block;
 }
 
-/* Gives the Open Feed button the red JPC action colour. */
-.open-feed {
+/* Gives the Open Feed button link the red JPC action colour. */
+.open-feed a {
     background-color: red;
 }
 
-/* Gives the second hero button a grey background. */
-.hero-buttons a:last-child {
+/* Gives the Guidelines button link a grey background. */
+.guidelines a {
     background-color: #666;
 }
 

@@ -1,0 +1,79 @@
+/* Sets the Feed page width, centers the page, and adds spacing below the navbar. */
+.feed-main {
+    width: min(1516px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 36px 0 48px;
+}
+
+/* Creates the grey title bar at the top of the Feed page. */
+.feed-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    margin-bottom: 36px;
+    padding: 0 48px;
+    background-color: #d1d1d1;
+}
+
+/* Styles the Feed page title. */
+.feed-heading h1 {
+    color: #070707;
+    font-size: 28px;
+    font-weight: 900;
+}
+
+/* Styles the Add post button without connecting it to any JavaScript yet. */
+.add-post-button {
+    border: 0;
+    background-color: red;
+    color: white;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* Creates a simple vertical space for feed posts. */
+.feed-list {
+    display: grid;
+    gap: 20px;
+}
+
+/* Styles the temporary example post. */
+.feed-post {
+    padding: 24px;
+    background-color: white;
+    border: 1px solid #d8d8d8;
+}
+
+/* Styles the heading inside a feed post. */
+.feed-post h2 {
+    margin-bottom: 10px;
+    color: #222;
+}
+
+/* Styles the paragraph text inside a feed post. */
+.feed-post p {
+    color: #555;
+    font-size: 15px;
+}
+
+/* Starts phone responsive rules for the Feed page. */
+@media (max-width: 640px) {
+    /* Reduces page spacing on smaller screens. */
+    .feed-main {
+        width: calc(100% - 32px);
+        padding-top: 28px;
+    }
+
+    /* Stacks the Feed title and Add post button on smaller screens. */
+    .feed-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+        height: auto;
+        min-height: 52px;
+        padding: 16px 24px;
+    }
+}

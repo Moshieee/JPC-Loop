@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Page metadata, responsive viewport settings, shared stylesheet, and auth-only stylesheet. -->
+    <!-- Page metadata, shared stylesheet, and auth-only stylesheet. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in | JPC Loop</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="auth.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body class="auth-page">
 
-    <!-- Shared navigation for moving between the homepage and sign-in page. -->
+    <!-- Header navigation shown at the top of the sign-in page. -->
     <header>
         <nav class="navbar">
-            <h2 class="logo"><a href="index.html">JPC Loop</a></h2>
+            <h2 class="logo"><a href="index.html"><img src="images/JPC-Loop-Logo.png" alt="JPC Loop"></a></h2>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="">Feed</a></li>
-                <li><a href="">News</a></li>
+                <li><a href="feed.html">Feed</a></li>
+                <li><a href="news.html">News</a></li>
                 <li><a href="houses.html">Houses</a></li>
                 <li><a href="">Gallery</a></li>
                 <li><a href="">Guidelines</a></li>
@@ -27,74 +27,126 @@
         </nav>
     </header>
 
-    <!-- Authentication screen with forms on the left and profile status on the right. -->
+    <!-- Message area used by auth.js for success and error notifications. -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <!-- Main sign-in page content. -->
     <main class="auth-main">
+
+        <!-- Authentication screen with forms on the left and profile status on the right. -->
         <section class="auth-shell auth-only" id="auth-shell">
-            <div class="auth-panel">
-                <!-- Page title changes when the user switches between sign in and create account. -->
-                <div class="auth-heading">
-                    <h1 id="auth-title">Sign in</h1>
-                    <p>Access your JPC Loop account.</p>
+
+            <!-- Main authentication container. -->
+            <div class="auth-panel containers">
+                <div class="auth-container">
+
+                    <!-- Login section shown first. -->
+                    <div class="login container active">
+                        <div class="login-content">
+
+                            <!-- Login heading and subtitle. -->
+                            <div class="auth-heading logo">
+                                <h1 id="auth-title">Sign in</h1>
+                                <p class="subtitle">Access your JPC Loop account.</p>
+                            </div>
+
+                            <!-- Existing users sign in with their school email and password. -->
+                            <div class="form">
+                                <form class="auth-form" id="signin-form">
+                                    <label for="signin-email">Email</label>
+                                    <input id="signin-email" name="email" type="email" autocomplete="email" placeholder="Student ID@jpc.school.nz" required>
+
+                                    <label for="signin-password">Password</label>
+                                    <div class="password-field">
+                                        <input id="signin-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+                                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="signin-password">
+                                            <span class="eye-icon" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+
+                                    <button class="primary-button" type="submit">Sign in</button>
+                                </form>
+                            </div>
+
+                            <!-- Divider and Google sign-in option. -->
+                            <div class="social-login">
+                                <div class="auth-divider"><span>or</span></div>
+
+                                <button class="google-button" type="button">
+                                    <span aria-hidden="true">G</span>
+                                    Continue with Google
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Switches from the login section to the create-account section. -->
+                        <div class="link-signup">
+                            <p>Don't have an account? <button class="auth-link-button" type="button" data-panel="register">Sign up</button></p>
+                        </div>
+                    </div>
+
+                    <!-- Create-account section hidden until the user chooses Sign up. -->
+                    <div class="signup-container is-hidden">
+                        <div class="login-content">
+
+                            <!-- Create-account heading and subtitle. -->
+                            <div class="auth-heading logo">
+                                <h1>Create account</h1>
+                                <p class="subtitle">Please enter your details.</p>
+                            </div>
+
+                            <!-- New users create an account with their school email. -->
+                            <div class="form">
+                                <form class="auth-form is-hidden" id="register-form">
+                                    <label for="register-name">Name</label>
+                                    <input id="register-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+
+                                    <label for="register-email">Email</label>
+                                    <input id="register-email" name="email" type="email" autocomplete="email" placeholder="Student ID@jpc.school.nz" required>
+
+                                    <label for="register-password">Password</label>
+                                    <div class="password-field">
+                                        <input id="register-password" name="password" type="password" autocomplete="new-password" placeholder="Enter your password" minlength="6" required>
+                                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="register-password">
+                                            <span class="eye-icon" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+
+                                    <label for="register-confirm">Confirm password</label>
+                                    <div class="password-field">
+                                        <input id="register-confirm" name="confirm-password" type="password" autocomplete="new-password" placeholder="Confirm your password" minlength="6" required>
+                                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="register-confirm">
+                                            <span class="eye-icon" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+
+                                    <button class="primary-button" type="submit">Create account</button>
+                                </form>
+                            </div>
+
+                            <!-- Divider and Google sign-in option. -->
+                            <div class="social-login">
+                                <div class="auth-divider"><span>or</span></div>
+
+                                <button class="google-button" type="button">
+                                    <span aria-hidden="true">G</span>
+                                    Continue with Google
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Switches from the create-account section back to login. -->
+                        <div class="link-signup">
+                            <p>Already have an account? <button class="auth-link-button active" type="button" data-panel="signin">Login</button></p>
+                        </div>
+                    </div>
+
+                    <!-- Feedback message written by auth.js. -->
+                    <p class="auth-message" id="auth-message" aria-live="polite"></p>
+
                 </div>
-
-                <!-- Tabs choose which form is visible. JavaScript handles the switching. -->
-                <div class="auth-tabs" role="tablist" aria-label="Account options">
-                    <button class="tab-button active" type="button" role="tab" aria-selected="true" data-panel="signin">Sign in</button>
-                    <button class="tab-button" type="button" role="tab" aria-selected="false" data-panel="register">Create account</button>
-                </div>
-
-                <!-- Existing users sign in with their school email and password. -->
-                <form class="auth-form" id="signin-form">
-                    <label for="signin-email">Email</label>
-                    <input id="signin-email" name="email" type="email" autocomplete="email" required>
-
-                    <label for="signin-password">Password</label>
-                    <div class="password-field">
-                        <input id="signin-password" name="password" type="password" autocomplete="current-password" required>
-                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="signin-password">
-                            <span class="eye-icon" aria-hidden="true"></span>
-                        </button>
-                    </div>
-
-                    <button class="primary-button" type="submit">Sign in</button>
-                </form>
-
-                <!-- New users create an account; auth.js checks that the email is a JPC address. -->
-                <form class="auth-form is-hidden" id="register-form">
-                    <label for="register-name">Name</label>
-                    <input id="register-name" name="name" type="text" autocomplete="name" required>
-
-                    <label for="register-email">Email</label>
-                    <input id="register-email" name="email" type="email" autocomplete="email" required>
-
-                    <label for="register-password">Password</label>
-                    <div class="password-field">
-                        <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="6" required>
-                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="register-password">
-                            <span class="eye-icon" aria-hidden="true"></span>
-                        </button>
-                    </div>
-
-                    <label for="register-confirm">Confirm password</label>
-                    <div class="password-field">
-                        <input id="register-confirm" name="confirm-password" type="password" autocomplete="new-password" minlength="6" required>
-                        <button class="password-toggle" type="button" aria-label="Show password" aria-controls="register-confirm">
-                            <span class="eye-icon" aria-hidden="true"></span>
-                        </button>
-                    </div>
-
-                    <button class="primary-button" type="submit">Create account</button>
-                </form>
-
-                <!-- Google sign-in also gets checked so only JPC school accounts are accepted. -->
-                <div class="auth-divider"><span>or</span></div>
-
-                <button class="google-button" id="google-button" type="button">
-                    <span aria-hidden="true">G</span>
-                    Continue with Google
-                </button>
-
-                <p class="auth-message" id="auth-message" aria-live="polite"></p>
             </div>
 
             <!-- Signed-in user panel. It appears after Firebase confirms an active account. -->
@@ -110,7 +162,9 @@
                 <p id="user-email"></p>
                 <button class="secondary-button" id="signout-button" type="button">Sign out</button>
             </aside>
+
         </section>
+
     </main>
 
     <script type="module" src="auth.js"></script>
