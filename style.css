@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap');
 
+:root {
+    --background: #f4f4f4;
+    --surface: #ffffff;
+    --grey: #d1d1d1;
+    --text: #262626;
+    --accent: #ff0000;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,8 +17,8 @@
 
 body {
     min-height: 100vh;
-    color: #262626;
-    background-color: #f4f4f4;
+    color: var(--text);
+    background-color: var(--background);
 }
 
 h1 {
@@ -31,7 +39,7 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    background-color: #d3d3d3;
+    background-color: var(--grey);
 }
 
 .logo {
@@ -56,7 +64,7 @@ a {
 }
 
 .navbar a {
-    color: #404040;
+    color: var(--text);
     font-weight: 700;
     text-decoration: none;
 }
@@ -64,8 +72,8 @@ a {
 .navbar a.signin,
 .add-post-button,
 .primary-button {
-    background-color: red;
-    color: white;
+    background-color: var(--accent);
+    color: var(--surface);
 }
 
 .navbar a.signin {
@@ -81,7 +89,12 @@ input:disabled {
 .page-main,
 .feed-main,
 .news-main,
-.houses-main {
+.houses-main,
+.kanea-main,
+.laSalle-main,
+.mackillop-main,
+.mckenna-main,
+.rice-main {
     width: min(1516px, calc(100% - 48px));
     margin: 0 auto;
     padding: 36px 0 48px;
@@ -90,31 +103,42 @@ input:disabled {
 .page-heading,
 .feed-heading,
 .news-heading,
-.houses-heading {
+.houses-heading,
+.kanea-heading,
+.laSalle-heading,
+.mackillop-heading,
+.mckenna-heading,
+.rice-heading {
     min-height: 56px;
     display: flex;
     align-items: center;
     margin-bottom: 36px;
     padding: 0 48px;
-    background-color: #d1d1d1;
+    background-color: var(--grey);
 }
 
 .feed-heading,
-.news-heading {
+.news-heading,
+.kanea-heading {
     justify-content: space-between;
 }
 
 .page-heading h1,
 .feed-heading h1,
 .news-heading h1,
-.houses-heading h1 {
-    color: #070707;
+.houses-heading h1,
+.kanea-heading h1,
+.laSalle-heading h1,
+.mackillop-heading h1,
+.mckenna-heading h1,
+.rice-heading h1 {
+    color: var(--text);
     font-size: 28px;
     font-weight: 900;
 }
 
 .page-content {
-    color: #555;
+    color: var(--text);
     font-size: 15px;
 }
 
@@ -129,11 +153,20 @@ input:disabled {
     display: block;
 }
 
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: var(--text);
+    opacity: 0.5;
+}
+
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 8, 20, 0.5);
-    color: white;
+    z-index: 2;
+    color: var(--surface);
     text-align: center;
 }
 
@@ -156,23 +189,24 @@ input:disabled {
 .hero-buttons a {
     display: inline-block;
     padding: 12px;
-    color: white;
+    color: var(--surface);
     text-decoration: none;
 }
 
 .open-feed a {
-    background-color: red;
+    background-color: var(--accent);
 }
 
 .guidelines a {
-    background-color: #666;
+    background-color: var(--accent);
+    color: var(--surface);
 }
 
 .home-section {
     width: 900px;
     margin: 0 auto 32px;
     padding-top: 8px;
-    border-top: 2px solid #444;
+    border-top: 2px solid var(--text);
 }
 
 .home-section h2 {
@@ -198,7 +232,7 @@ input:disabled {
 }
 
 .empty-message {
-    color: #666;
+    color: var(--text);
     font-size: 14px;
 }
 
@@ -216,19 +250,19 @@ input:disabled {
 .feed-post,
 .news-post {
     padding: 24px;
-    background-color: white;
-    border: 1px solid #d8d8d8;
+    background-color: var(--surface);
+    border: 1px solid var(--grey);
 }
 
 .feed-post h2,
 .news-post h2 {
     margin-bottom: 10px;
-    color: #222;
+    color: var(--text);
 }
 
 .feed-post p,
 .news-post p {
-    color: #555;
+    color: var(--text);
     font-size: 15px;
 }
 
@@ -241,7 +275,7 @@ input:disabled {
 }
 
 .house-card {
-    background-color: #d1d1d1;
+    background-color: var(--grey);
 }
 
 .house-card img {
@@ -257,18 +291,18 @@ input:disabled {
 
 .guidelines-list {
     list-style-position: inside;
-    color: #262626;
+    color: var(--text);
 }
 
 .guidelines-list li {
     padding: 18px 22px;
-    background-color: white;
-    border-left: 5px solid red;
+    background-color: var(--surface);
+    border-left: 5px solid var(--accent);
 }
 
 .guidelines-list h2 {
     display: inline;
-    color: #111;
+    color: var(--text);
     font-size: 18px;
     font-weight: 900;
 }
@@ -279,7 +313,7 @@ input:disabled {
 }
 
 .auth-page {
-    background: linear-gradient(rgba(12, 18, 31, 0.66), rgba(12, 18, 31, 0.66)), url("images/school.jpg") center/cover fixed;
+    background: var(--background) url("images/school.jpg") center/cover fixed;
 }
 
 .auth-main {
@@ -305,8 +339,8 @@ input:disabled {
 .auth-panel,
 .auth-status {
     padding: 28px;
-    background-color: white;
-    border: 1px solid #d8d8d8;
+    background-color: var(--surface);
+    border: 1px solid var(--grey);
 }
 
 .login.is-hidden,
@@ -322,12 +356,12 @@ input:disabled {
 
 .auth-heading h1 {
     margin-bottom: 8px;
-    color: #1f1f1f;
+    color: var(--text);
 }
 
 .auth-heading p,
 .auth-status p:not(.eyebrow) {
-    color: #5a5a5a;
+    color: var(--text);
     font-size: 15px;
     line-height: 1.5;
 }
@@ -338,7 +372,7 @@ input:disabled {
 }
 
 .auth-form label {
-    color: #343434;
+    color: var(--text);
     font-size: 13px;
     font-weight: 700;
 }
@@ -347,15 +381,15 @@ input:disabled {
     width: 100%;
     min-height: 44px;
     padding: 10px 12px;
-    border: 1px solid #cfcfcf;
-    background-color: white;
-    color: #222;
+    border: 1px solid var(--grey);
+    background-color: var(--surface);
+    color: var(--text);
     font-size: 15px;
 }
 
 .auth-form input:focus {
-    border-color: red;
-    outline: 2px solid rgba(255, 0, 0, 0.18);
+    border-color: var(--accent);
+    outline: 2px solid var(--accent);
 }
 
 .password-field {
@@ -383,7 +417,7 @@ input:disabled {
     height: 18px;
     display: block;
     margin: auto;
-    border: 2px solid #555;
+    border: 2px solid var(--text);
     border-radius: 50%;
 }
 
@@ -394,11 +428,11 @@ input:disabled {
     display: block;
     margin: 4px auto;
     border-radius: 50%;
-    background-color: #555;
+    background-color: var(--text);
 }
 
 .password-toggle.is-visible {
-    background-color: #eeeeee;
+    background-color: var(--grey);
 }
 
 .primary-button,
@@ -414,8 +448,8 @@ input:disabled {
 .secondary-button {
     width: 100%;
     margin-top: auto;
-    background-color: #303030;
-    color: white;
+    background-color: var(--text);
+    color: var(--surface);
 }
 
 .google-button {
@@ -424,9 +458,9 @@ input:disabled {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    border: 1px solid #d2d2d2;
-    background-color: white;
-    color: #252525;
+    border: 1px solid var(--grey);
+    background-color: var(--surface);
+    color: var(--text);
 }
 
 .google-button span {
@@ -436,8 +470,8 @@ input:disabled {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: #f2f2f2;
-    color: #4285f4;
+    background-color: var(--grey);
+    color: var(--text);
     font-weight: 900;
 }
 
@@ -446,7 +480,7 @@ input:disabled {
     align-items: center;
     gap: 12px;
     margin: 20px 0;
-    color: #777;
+    color: var(--text);
     font-size: 13px;
     font-weight: 700;
 }
@@ -456,13 +490,13 @@ input:disabled {
     content: "";
     height: 1px;
     flex: 1;
-    background-color: #dcdcdc;
+    background-color: var(--grey);
 }
 
 .link-signup,
 .auth-message {
     margin-top: 16px;
-    color: #555;
+    color: var(--text);
     font-size: 14px;
     line-height: 1.45;
     text-align: center;
@@ -471,21 +505,21 @@ input:disabled {
 .auth-link-button {
     border: 0;
     background-color: transparent;
-    color: red;
+    color: var(--accent);
     cursor: pointer;
     font-weight: 800;
 }
 
 .auth-message.success {
-    color: #12743a;
+    color: var(--text);
 }
 
 .auth-message.error {
-    color: #b00020;
+    color: var(--accent);
 }
 
 .auth-message.warning {
-    color: #986000;
+    color: var(--accent);
 }
 
 .auth-status {
@@ -502,9 +536,9 @@ input:disabled {
     width: 96px;
     height: 96px;
     overflow: hidden;
-    border: 2px solid #d8d8d8;
+    border: 2px solid var(--grey);
     border-radius: 50%;
-    background-color: #f1f3f5;
+    background-color: var(--background);
 }
 
 .profile-avatar img {
@@ -516,7 +550,7 @@ input:disabled {
 
 .eyebrow {
     margin-bottom: 8px;
-    color: red;
+    color: var(--accent);
     font-size: 12px;
     font-weight: 900;
     text-transform: uppercase;
@@ -524,7 +558,7 @@ input:disabled {
 
 .auth-status h2 {
     margin-bottom: 8px;
-    color: #1f1f1f;
+    color: var(--text);
 }
 
 .auth-status p:not(.eyebrow) {
