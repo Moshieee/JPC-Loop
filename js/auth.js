@@ -38,7 +38,7 @@ const SCHOOL_EMAIL_DOMAIN = "@jpc.school.nz";
 
 // Local fallback image used for email/password users or Google users with no profile photo.
 // This file lives in the images folder and does not require Firebase Storage.
-const DEFAULT_PROFILE_IMAGE = "images/DefaultPFP.png";
+const DEFAULT_PROFILE_IMAGE = new URL("../images/defaultProfile.png", import.meta.url).href;
 
 // Cached HTML elements so the rest of the script can update the page.
 // Storing them here means we only need to call document.getElementById once.
