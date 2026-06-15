@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap');
 
+/* Global styles */
+
 :root {
     --background: #f4f4f4;
     --surface: #ffffff;
@@ -32,6 +34,8 @@ h2 {
 a {
     font-size: 14px;
 }
+
+/* Navigation bar */
 
 .navbar {
     height: 56px;
@@ -69,6 +73,10 @@ a {
     text-decoration: none;
 }
 
+.navbar a:hover {
+    color: var(--accent);   
+}
+
 .navbar a.signin,
 .add-post-button,
 .primary-button {
@@ -80,11 +88,17 @@ a {
     padding: 7px 13px;
 }
 
+.navbar signin:hover {
+    background-color: var(--text);
+}
+
 button:disabled,
 input:disabled {
     opacity: 0.68;
     cursor: not-allowed;
 }
+
+/* Shared page layout */
 
 .page-main,
 .feed-main,
@@ -142,6 +156,8 @@ input:disabled {
     font-size: 15px;
 }
 
+/* Home page */
+
 .hero {
     position: relative;
     width: 900px;
@@ -186,6 +202,10 @@ input:disabled {
     transform: translateX(-50%);
 }
 
+.hero-buttons a:hover {
+    transform: scale(1.05);
+}
+
 .hero-buttons a {
     display: inline-block;
     padding: 12px;
@@ -216,6 +236,8 @@ input:disabled {
 .home-section-content {
     min-height: 72px;
 }
+
+/* Feed and news pages */
 
 .news-preview,
 .feed-preview,
@@ -266,6 +288,8 @@ input:disabled {
     font-size: 15px;
 }
 
+/* Houses page */
+
 .houses-grid {
     width: min(1222px, 100%);
     display: grid;
@@ -289,6 +313,8 @@ input:disabled {
     margin: 0 auto;
 }
 
+/* Guidelines page */
+
 .guidelines-list {
     list-style-position: inside;
     color: var(--text);
@@ -311,6 +337,64 @@ input:disabled {
     margin-top: 8px;
     line-height: 1.5;
 }
+
+/* house pages */
+
+.house-info-text {
+    max-width: 850px;
+}
+
+.house-info-text h2{
+    margin-bottom: 12px;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.house-info-text p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.house-info-icon img{
+    width: 180px;
+    display: block;
+    padding: 5px;
+    border: 5px solid;
+    background-color: var(--surface);
+}
+
+.house-info {
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 36px;
+    padding: 28px;
+    background-color: var(--surface);
+    border: 1px solid var(--grey);
+}
+
+.rice-info .house-info-icon img {
+    border-color: var(--accent);
+}
+
+.kanea-info .house-info-icon img {
+    border-color: yellow;
+}
+
+.mckenna-info .house-info-icon img {
+    border-color: blue ;
+}
+
+.mackillop-info .house-info-icon img {
+    border-color: green;
+}
+
+.lasalle-info .house-info-icon img {
+    border-color: purple;
+}
+
+/* Sign-in page */
 
 .auth-page {
     background: var(--background) url("images/school.jpg") center/cover fixed;
