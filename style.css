@@ -3,7 +3,7 @@
 /* Global styles */
 
 :root {
-    --background: #f4f4f4;
+    --background: #f7f7f7;
     --surface: #ffffff;
     --grey: #d1d1d1;
     --text: #262626;
@@ -243,7 +243,8 @@ input:disabled {
 .feed-preview,
 .feed-list,
 .news-list,
-.guidelines-list {
+.guidelines-list,
+.house-feed-list {
     display: grid;
     gap: 16px;
 }
@@ -270,24 +271,68 @@ input:disabled {
 }
 
 .feed-post,
-.news-post {
+.news-post,
+.house-feed-post {
     padding: 24px;
     background-color: var(--surface);
     border: 1px solid var(--grey);
 }
 
 .feed-post h2,
-.news-post h2 {
+.news-post h2,
+.house-feed-post h2 {
     margin-bottom: 10px;
     color: var(--text);
 }
 
 .feed-post p,
-.news-post p {
+.news-post p,
+.house-feed-post p {
     color: var(--text);
     font-size: 15px;
 }
 
+/* Post form */
+
+.post-form-pannel {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-bottom: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease, margin-bottom 0.3s ease;
+}
+
+.post-form-pannel.is-open {
+    max-height: 400px;
+    opacity: 1;
+    margin-bottom: 36px;
+}
+
+.post-form {
+    display: grid;
+    gap: 12px;
+    padding: 24px;
+    background-color: var(--surface);
+    border: 1px solid var(--grey);
+}
+
+.post-form label {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.post-form input,
+.post-form textarea {
+    width:100%;
+    padding: 12px 14px;
+    border: 1px solid var(--grey);
+    font-size: 15px;
+}
+
+.post-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
 /* Houses page */
 
 .houses-grid {
@@ -392,6 +437,13 @@ input:disabled {
 
 .lasalle-info .house-info-icon img {
     border-color: purple;
+}
+
+.house-posts-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
 }
 
 /* Sign-in page */

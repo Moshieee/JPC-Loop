@@ -32,7 +32,19 @@
         <!-- Grey heading bar with the page title and add post button. -->
         <section class="feed-heading">
             <h1>Feed</h1>
-            <button class="add-post-button" type="button">Add post</button>
+            <button class="add-post-button" id="toggle-post-form" type="button">Add post</button>
+        </section>
+
+        <section class="post-form-pannel" id="post-form-pannel">
+            <form class="post-form" id="post-form">
+                <label for="post-title">Post title</label>
+                <input class="post-title" id="post-title" type="text" placeholder="Enter post title">
+
+                <label for="post-description">Post description</label>
+                <textarea class="post-description" id="post-description" placeholder="Write your post"></textarea>
+
+                <button class="primary-button" type="submit">Post</button>
+            </form>
         </section>
 
         <!-- Placeholder feed post area. -->
@@ -46,6 +58,8 @@
         </section>
 
     </main>
+
+<script src="../js/feed.js"></script>
 
 </body>
 
