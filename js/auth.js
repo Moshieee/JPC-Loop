@@ -38,7 +38,7 @@ const SCHOOL_EMAIL_DOMAIN = "@jpc.school.nz";
 
 // Local fallback image used for email/password users or Google users with no profile photo.
 // This file lives in the images folder and does not require Firebase Storage.
-const DEFAULT_PROFILE_IMAGE = new URL("../images/defaultProfile.png", import.meta.url).href;
+const DEFAULT_PROFILE_IMAGE = "../images/defaultProfile.png";
 
 // Cached HTML elements so the rest of the script can update the page.
 // Storing them here means we only need to call document.getElementById once.
@@ -152,7 +152,10 @@ function showPanel(panelName) {
 }
 
 function getProviderId(user) {
-    return user.providerData?.[0]?.providerId || "password";
+    if (user.providerData && user.providerData[0]) {
+        return user.providerData[0].providerId;
+    }
+    return "password";
 }
 
 // Chooses the nicest available display name for the signed-in card.
@@ -172,10 +175,14 @@ function getFriendlyName(user) {
 // Finds a Google profile photo if Firebase has one.
 // Some accounts store it on user.photoURL; others store it inside providerData.
 function getGoogleProviderPhoto(user) {
-    // providerData is an array because one account can have multiple sign-in methods.
-    // We search for the Google entry and use its photo if Firebase has saved one.
-    const googleProvider = user?.providerData?.find((provider) => provider.providerId === "google.com");
-    return googleProvider?.photoURL || "";
+    if (!user || !user.providerData) {
+        return "";
+    }
+
+    const googleProvider = user.providerData.find(
+        (provider) => provider.providerId === "google.com"
+    );
+    return googleProvider ? googleProvider.photoURL || "" : "";
 }
 
 // Adds a size parameter to Google profile images so they load crisply in the avatar circle.
@@ -192,7 +199,9 @@ function normalizeGooglePhotoURL(photoURL) {
 // Chooses which profile image should appear in the signed-in card.
 // Order: Firebase profile photo, Google provider photo, then the local default image.
 function getProfileImage(user) {
-    return normalizeGooglePhotoURL(user?.photoURL || getGoogleProviderPhoto(user)) || DEFAULT_PROFILE_IMAGE;
+    const photoURL = user && user.photoURL ? user.photoURL: getGoogleProviderPhoto(user);
+
+    return normalizeGooglePhotoURL(photoURL) || DEFAULT_PROFILE_IMAGE;
 }
 
 // Updates the avatar image and makes sure broken external images fall back to the local default.
@@ -372,7 +381,9 @@ async function handleGoogleSignin(event) {
         const userInfo = getAdditionalUserInfo(userCredential);
 
         if (!isSchoolEmail(userCredential.user.email)) {
-            await removeUnauthorizedGoogleUser(userCredential.user, Boolean(userInfo?.isNewUser));
+            await removeUnauthorizedGoogleUser(
+                userCredential.user, Boolean(userInfo && userInfo.isNewUser)
+            );
             updateUserPanel(null);
             setMessage(schoolEmailMessage(), "error");
             return;
@@ -387,8 +398,8 @@ async function handleGoogleSignin(event) {
         updateUserPanel(userCredential.user);
         const profileSaved = await saveUserProfile(
             userCredential.user,
-            userInfo?.providerId || "google.com",
-            Boolean(userInfo?.isNewUser)
+            userInfo && userInfo.providerId || "google.com",
+            Boolean(userInfo && userInfo.isNewUser)
         );
 
         setMessage(

@@ -217,7 +217,7 @@ input:disabled {
     background-color: var(--accent);
 }
 
-.guidelines a {
+.hero-buttons .guidelines a {
     background-color: var(--accent);
     color: var(--surface);
 }
