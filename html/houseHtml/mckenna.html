@@ -32,6 +32,7 @@
         <!-- Grey heading bar with the page title and add post button. -->
         <section class="mckenna-heading">
             <h1>McKenna</h1>
+            <a href="../houses.html" class="back-button">Back to Houses</a>
         </section>
 
         <section class="house-info mckenna-info">
@@ -47,6 +48,32 @@
                 <img src="../../images/houses/mckennaIcon.jpg" alt="McKenna House icon">
             </div>
         </section>
+            <section class="house-posts">
+            <div class = "house-posts-heading">
+                <h2>McKenna House Feed</h2>
+                <button class="add-post-button" id="toggle-post-form" type="button">Add house post</button>
+            </div>
+
+        <div class="post-form-pannel" id="post-form-pannel">
+            <form class="post-form" id="post-form">
+                <label for="post-title">Post title</label>
+                <input class="post-title" id="post-title" type="text" placeholder="Enter post title">
+
+                <label for="post-description">Post description</label>
+                <textarea class="post-description" id="post-description" placeholder="Write your post"></textarea>
+
+                <button class="primary-button" type="submit">Post</button>
+            </form>
+        </div>
+
+            <section class="house-feed-list">
+                <article class="house-feed-post">
+                    <h2>No house posts yet</h2>
+                    <p>McKenna house posts will appear here once this feature is connected</p>
+                </article>
+            </section>
+        </section>
     </main>
+<script src="../../js/addPost.js"></script>
 </body>
 </html>

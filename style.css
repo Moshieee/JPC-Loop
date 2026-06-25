@@ -129,6 +129,7 @@ input:disabled {
     margin-bottom: 36px;
     padding: 0 48px;
     background-color: var(--grey);
+    justify-content: space-between;
 }
 
 .feed-heading,
@@ -263,13 +264,6 @@ input:disabled {
     grid-column: 1 / -1;
 }
 
-.add-post-button {
-    border: 0;
-    padding: 10px 16px;
-    font-size: 14px;
-    font-weight: 800;
-}
-
 .feed-post,
 .news-post,
 .house-feed-post {
@@ -292,7 +286,15 @@ input:disabled {
     font-size: 15px;
 }
 
-/* Post form */
+/* Shared create post controls */
+
+.add-post-button {
+    border: 0;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
 
 .post-form-pannel {
     max-height: 0;
@@ -444,6 +446,15 @@ input:disabled {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 16px;
+}
+
+.back-button {
+    padding: 8px 12px;
+    background-color: var(--accent);
+    color: var(--surface);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 /* Sign-in page */
