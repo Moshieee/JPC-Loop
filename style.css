@@ -88,7 +88,7 @@ a {
     padding: 7px 13px;
 }
 
-.navbar signin:hover {
+.navbar a.signin:hover {
     background-color: var(--text);
 }
 
@@ -455,6 +455,11 @@ input:disabled {
     text-decoration: none;
     font-size: 14px;
     font-weight: 700;
+}
+
+.back-button:hover {
+    background-color: var(--text);
+    color: var(--surface);
 }
 
 /* Sign-in page */
